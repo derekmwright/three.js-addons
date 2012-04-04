@@ -1,3 +1,17 @@
+// Basic Input control
+// Created by Derek Wright
+// https://github.com/derekmwright
+//
+// Usage:
+//   var input = new Input();
+//
+// To check if a key was pressed look for a true value on the key identifier
+//
+// if(input.a) console.log('a was pressed');
+// if(input._1) console.log('the number 1 was pressed');
+//
+// As soon as the key is release, the value is flipped to false
+
 var Input = Input || {};
 
 Input = function() {
