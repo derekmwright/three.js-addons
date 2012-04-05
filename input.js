@@ -1,17 +1,3 @@
-// Basic Input control
-// Created by Derek Wright
-// https://github.com/derekmwright
-//
-// Usage:
-//   var input = new Input();
-//
-// To check if a key was pressed look for a true value on the key identifier
-//
-// if(input.a) console.log('a was pressed');
-// if(input._1) console.log('the number 1 was pressed');
-//
-// As soon as the key is release, the value is flipped to false
-
 var Input = Input || {};
 
 Input = function() {
@@ -27,6 +13,9 @@ Input = function() {
     this.onMouseDown = function(event) {
         event.preventDefault();
         event.stopPropagation();
+        if(event.button === 0) {
+            this.mouse_left = true;
+        }
         if(event.button == 2) {
             this.mouse_right = true;
         }
@@ -38,20 +27,23 @@ Input = function() {
     this.onMouseUp = function(event) {
         event.preventDefault();
         event.stopPropagation();
+        if(event.button === 0) {
+            this.mouse_left = false;
+        }
         if(event.button == 2) {
             this.mouse_look = false;
             this.mouse_right = false;
-            this.mouseX = 0;
-            this.mouseY = 0;
         }
 		this.mouse_drag = false;
 	};
     
     this.onMouseMove = function(event) {
-        if(this.mouse_drag) {
+        if(this.mouse_drag && event.button == 2) {
             this.mouse_look = true;
 		    this.mouseX = event.pageX - this.viewHalfX;
 		    this.mouseY = event.pageY - this.viewHalfY;
+        } else {
+            this.mouse_look = false;
         }
 	};
     
@@ -268,5 +260,5 @@ Input = function() {
         return function () {
 			fn.apply( scope, arguments );
 		};
-	}
+    }
 };
