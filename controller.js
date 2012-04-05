@@ -79,10 +79,10 @@ Controller.prototype.detach = function() {
 
 Controller.prototype.update = function() {
     if(this.attached === true) {
-        if(this.input.a && this.input.mouse_right) {
+        if(this.input.a || this.input.left && this.input.mouse_right) {
             this.character.translateX(- this.move_speed);
         }
-        if(this.input.d && this.input.mouse_right) {
+        if(this.input.d || this.input.right && this.input.mouse_right) {
             this.character.translateX(this.move_speed);
         }
         if(this.input.w || this.input.up) {
@@ -91,10 +91,10 @@ Controller.prototype.update = function() {
         if(this.input.s || this.input.down) {
             this.character.translateZ(this.move_speed);
         }
-        if(this.input.d || this.input.right) {
+        if(this.input.d || this.input.right && !this.input.mouse_right) {
             this.character.rotation.y -= this.rotation_speed;
         }
-        if(this.input.a || this.input.left) {
+        if(this.input.a || this.input.left && !this.input.mouse_right) {
                 this.character.rotation.y += this.rotation_speed;
         }
         if(this.input.pageup && this.camera.rotation.x < this.up_limit) {
