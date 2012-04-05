@@ -36,7 +36,7 @@ Controller = function() {
     this.input = new Input();
     this.lookX_curr = 0;
     this.lookY_curr = 0;
-    this.dampening = 0.0001;
+    this.dampening = 0.0002;
     this.max_speed = 0.05;
 };
 
@@ -79,6 +79,12 @@ Controller.prototype.detach = function() {
 
 Controller.prototype.update = function() {
     if(this.attached === true) {
+        if(this.input.a && this.input.mouse_right) {
+            this.character.translateX(- this.move_speed);
+        }
+        if(this.input.d && this.input.mouse_right) {
+            this.character.translateX(this.move_speed);
+        }
         if(this.input.w || this.input.up) {
             this.character.translateZ(- this.move_speed);
         }
@@ -107,9 +113,9 @@ Controller.prototype.update = function() {
         if(this.input.mouse_look) {
             var deltaX = this.lookX_curr - this.input.mouseX;
             var deltaY = this.lookY_curr - this.input.mouseY;
-            if(this.camera.rotation.x < this.up_limit && this.camera.rotation.x > this.down_limit) {
+            //if(this.camera.rotation.x < this.up_limit && this.camera.rotation.x > this.down_limit) {
                 this.camera.rotation.x += deltaY * this.dampening;
-            }
+            //}
             this.character.rotation.y += deltaX * this.dampening;
         }
     }
