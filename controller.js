@@ -113,10 +113,17 @@ Controller.prototype.update = function() {
         if(this.input.mouse_look) {
             var deltaX = this.lookX_curr - this.input.mouseX;
             var deltaY = this.lookY_curr - this.input.mouseY;
-            //if(this.camera.rotation.x < this.up_limit && this.camera.rotation.x > this.down_limit) {
+            if(this.camera.rotation.x < this.up_limit && this.camera.rotation.x > this.down_limit) {
                 this.camera.rotation.x += deltaY * this.dampening;
-            //}
+            }
+            if(Math.max(this.camera.rotation.x, this.up_limit) > this.up_limit || this.camera.rotation.x === this.up_limit) {
+                this.camera.rotation.x = this.up_limit - 0.001;
+            }
+            if(Math.min(this.camera.rotation.x, this.down_limit) < this.down_limit || this.camera.rotation.x === this.down_limit) {
+                this.camera.rotation.x = this.down_limit + 0.001;
+            }
             this.character.rotation.y += deltaX * this.dampening;
+            console.log(this.camera.rotation.x);
         }
     }
 };
