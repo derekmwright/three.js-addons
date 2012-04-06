@@ -28,7 +28,7 @@ Input = function() {
     this.onMouseWheel = function(event) {
         event.preventDefault();
         event.stopPropagation();
-        this.wheel_delta = event.WheelDelta;
+        this.wheel_delta = event.wheelDelta;
     };
     
     this.onMouseDown = function(event) {

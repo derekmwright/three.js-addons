@@ -26,6 +26,8 @@
 var Controller = Controller || {};
 
 Controller = function() {
+    this.input = new Input();
+    
     this.character = null;
     this.camera = null;
     this.attached = false;
@@ -33,7 +35,6 @@ Controller = function() {
     this.rotation_speed = 0.05;
     this.up_limit = 0.9;
     this.down_limit = -0.9;
-    this.input = new Input();
     this.lookX_curr = 0;
     this.lookY_curr = 0;
     this.dampening = 0.0002;
@@ -102,7 +103,7 @@ Controller.prototype.update = function() {
         if(this.input.pagedown && this.camera.rotation.x > this.down_limit) {
             this.camera.rotation.x -= this.rotation_speed;
         }
-        if(this.input.home) {
+        if(this.input.home || this.input.num_5) {
             this.camera.rotation = new THREE.Vector3(0,0,0);
         }
         if(this.input.mouse_right && !this.input.mouse_look) {
@@ -131,5 +132,20 @@ Controller.prototype.update = function() {
                 this.character.rotation.y -= this.rotation_speed;
             }
         }
+        if(this.input.wheel_delta !== 0 && this.input.wheel_delta > 0 && this.camera.position.z > 0) {
+            this.camera.position.z -= 2;
+            this.camera.position.y -= 1;
+            this.camera.rotation.x += 0.02;
+            this.input.wheel_delta = 0;
+            console.log(this.camera.position.z);
+        }
+        if(this.input.wheel_delta !== 0 && this.input.wheel_delta < 0 && this.camera.position.z < 50) {
+            this.camera.position.z += 2;
+            this.camera.position.y += 1;
+            this.camera.rotation.x -= 0.02;
+            this.input.wheel_delta = 0;
+            console.log(this.camera.position.z);
+        }
+        
     }
 };
