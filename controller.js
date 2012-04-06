@@ -37,7 +37,6 @@ Controller = function() {
     this.lookX_curr = 0;
     this.lookY_curr = 0;
     this.dampening = 0.0002;
-    this.max_speed = 0.05;
 };
 
 Controller.prototype.checkCamera = function() {
@@ -111,10 +110,10 @@ Controller.prototype.update = function() {
             this.lookY_curr = this.input.mouseY;
         }
         if(this.input.mouse_look) {
-            var deltaX = this.lookX_curr - this.input.mouseX;
-            var deltaY = this.lookY_curr - this.input.mouseY;
+            var deltaX = (this.lookX_curr - this.input.mouseX)*this.dampening;
+            var deltaY = (this.lookY_curr - this.input.mouseY)*this.dampening;
             if(this.camera.rotation.x < this.up_limit && this.camera.rotation.x > this.down_limit) {
-                this.camera.rotation.x += deltaY * this.dampening;
+                this.camera.rotation.x += deltaY;
             }
             if(Math.max(this.camera.rotation.x, this.up_limit) > this.up_limit || this.camera.rotation.x === this.up_limit) {
                 this.camera.rotation.x = this.up_limit - 0.001;
@@ -122,8 +121,15 @@ Controller.prototype.update = function() {
             if(Math.min(this.camera.rotation.x, this.down_limit) < this.down_limit || this.camera.rotation.x === this.down_limit) {
                 this.camera.rotation.x = this.down_limit + 0.001;
             }
-            this.character.rotation.y += deltaX * this.dampening;
-            console.log(this.camera.rotation.x);
+            if(deltaX < this.rotation_speed && deltaX > -this.rotation_speed) {
+                this.character.rotation.y += deltaX;
+            }
+            if(Math.max(deltaX, this.rotation_speed) > this.rotation_speed || deltaX === this.rotation_speed) {
+                this.character.rotation.y += this.rotation_speed;
+            }
+            if(Math.min(deltaX, -this.rotation_speed) < -this.rotation_speed || deltaX === -this.rotation_speed) {
+                this.character.rotation.y -= this.rotation_speed;
+            }
         }
     }
 };
