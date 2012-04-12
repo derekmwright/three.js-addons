@@ -137,14 +137,12 @@ Controller.prototype.update = function() {
             this.camera.position.y -= 1;
             this.camera.rotation.x += 0.02;
             this.input.wheel_delta = 0;
-            console.log(this.camera.position.z);
         }
         if(this.input.wheel_delta !== 0 && this.input.wheel_delta < 0 && this.camera.position.z < 50) {
             this.camera.position.z += 2;
             this.camera.position.y += 1;
             this.camera.rotation.x -= 0.02;
             this.input.wheel_delta = 0;
-            console.log(this.camera.position.z);
         }
         
     }
