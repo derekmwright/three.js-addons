@@ -105,7 +105,7 @@ Controller.prototype.update = function() {
             this.camera.rotation.x -= this.rotation_speed;
         }
         if(this.input.home || this.input.num_5) {
-            this.camera.rotation = new THREE.Vector3(0,0,0);
+            this.camera.rotation.x = 0;
         }
         if(this.input.mouse_right && !this.input.mouse_look) {
             this.lookX_curr = this.input.mouseX;
