@@ -6,7 +6,7 @@
 //   var output = new Console();
 //
 // Create an output line that gets updated by doing the following:
-//   *you need to give it a tag (displayed value), property of object you want to 
+//   *you need to give it a name (for display), property of object you want to 
 //   display and the object*
 //
 //   var output.create('player.x', 'x', player.position);
@@ -30,7 +30,7 @@ Console = function() {
     this.count = 0;
     this.children = [];
 
-    this.create = function(tag, property, object) {
+    this.create = function(name, property, object) {
         this.count++;
         var child = {};
         var line = document.createElement('p');
@@ -39,11 +39,11 @@ Console = function() {
         
         child.domElement = line;
         child.data = data;
-        child.tag = tag;
+        child.name = name;
         child.property = property;
         child.object = object;
         
-        line.innerHTML = tag + ': ' + data;
+        line.innerHTML = name + ': ' + data;
         
         this.children.push(child);
         this.domElement.appendChild(child.domElement);
@@ -52,7 +52,7 @@ Console = function() {
     this.update = function() {
         for(var i=0;i<this.children.length;i++) {
             this.children[i].data = this.children[i].object[this.children[i].property];
-            this.children[i].domElement.innerHTML = this.children[i].tag + ': ' + this.children[i].data;
+            this.children[i].domElement.innerHTML = this.children[i].name + ': ' + this.children[i].data;
         }
     };
 };
