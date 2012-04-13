@@ -38,6 +38,7 @@ Controller = function() {
     this.lookX_curr = 0;
     this.lookY_curr = 0;
     this.dampening = 0.0002;
+    this.debug = false;
 };
 
 Controller.prototype.checkCamera = function() {
@@ -53,25 +54,25 @@ Controller.prototype.checkCamera = function() {
 };
 
 Controller.prototype.attach = function(character) {
-    console.log('CONTROLLER: Attaching...');
+    if(this.debug) console.log('CONTROLLER: Attaching...');
     if(character instanceof THREE.Object3D) {
         this.character = character;
         this.checkCamera();
         if(this.camera === null) {
-            console.log('CONTROLLER: [ERR] The THREE.Object does not have a child camera. Use THREE.Object3D.add() to add a THREE.Camera object');
+            if(this.debug) console.log('CONTROLLER: [ERR] The THREE.Object does not have a child camera. Use THREE.Object3D.add() to add a THREE.Camera object');
             this.detach();
         } else {
             this.attached = true;
-            console.log('CONTROLLER: Success');
+            if(this.debug) console.log('CONTROLLER: Success');
         }   
     } else {
-        console.log('CONTROLLER: [ERR] The Controller can only attach to an instance of THREE.Object3D');
+        if(this.debug) console.log('CONTROLLER: [ERR] The Controller can only attach to an instance of THREE.Object3D');
         this.detach();
     }
 };
 
 Controller.prototype.detach = function() {
-    console.log('CONTROLLER: Detaching...');
+    if(this.debug) console.log('CONTROLLER: Detaching...');
     this.character = null;
     this.camera = null;
     this.attached = false;
