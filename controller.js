@@ -27,7 +27,9 @@ var Controller = Controller || {};
 
 Controller = function() {
     this.input = new Input();
-    
+    /*
+    ** TODO: change to a parameter style
+    */
     this.character = null;
     this.camera = null;
     this.attached = false;
@@ -42,6 +44,10 @@ Controller = function() {
 };
 
 Controller.prototype.checkCamera = function() {
+    /*
+    ** checkCamera does a quick check on the character object to make sure
+    ** it has an instance of THREE.Camera as a child.
+    */
     var char = this.character;
     var l = char.children.length;
     if(l > 0) {
@@ -54,6 +60,10 @@ Controller.prototype.checkCamera = function() {
 };
 
 Controller.prototype.attach = function(character) {
+    /*
+    ** Runs prerequisite checks and attaches the controller
+    ** to the character object.
+    */
     if(this.debug) console.log('CONTROLLER: Attaching...');
     if(character instanceof THREE.Object3D) {
         this.character = character;
@@ -72,6 +82,9 @@ Controller.prototype.attach = function(character) {
 };
 
 Controller.prototype.detach = function() {
+    /*
+    ** Allows you to detach controls to handle things like GUI interaction.
+    */
     if(this.debug) console.log('CONTROLLER: Detaching...');
     this.character = null;
     this.camera = null;
@@ -79,6 +92,10 @@ Controller.prototype.detach = function() {
 };
 
 Controller.prototype.update = function() {
+    /*
+    ** Updates the character object based on input.
+    ** Make sure you call this method inside your animation loop.
+    */
     if(this.attached === true) {
         if((this.input.a || this.input.left) && this.input.mouse_right) {
             this.character.translateX(- this.move_speed);
@@ -112,6 +129,11 @@ Controller.prototype.update = function() {
             this.lookY_curr = this.input.mouseY;
         }
         if(this.input.mouse_look) {
+            /*
+            ** Mouse Look
+            ** 
+            ** TODO: Implement Tweening to smooth out rotations...
+            */
             var deltaX = (this.lookX_curr - this.input.mouseX)*this.dampening;
             var deltaY = (this.lookY_curr - this.input.mouseY)*this.dampening;
             if(this.camera.rotation.x < this.up_limit && this.camera.rotation.x > this.down_limit) {
