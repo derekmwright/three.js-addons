@@ -115,7 +115,12 @@ Controller.prototype.update = function() {
             var deltaX = (this.lookX_curr - this.input.mouseX)*this.dampening;
             var deltaY = (this.lookY_curr - this.input.mouseY)*this.dampening;
             if(this.camera.rotation.x < this.up_limit && this.camera.rotation.x > this.down_limit) {
-                this.camera.rotation.x += deltaY;
+                if(deltaY < 0) {
+                    this.camera.rotation.x -= this.rotation_speed * 0.5;
+                }
+                if(deltaY > 0) {
+                    this.camera.rotation.x += this.rotation_speed * 0.5;
+                }
             }
             if(Math.max(this.camera.rotation.x, this.up_limit) > this.up_limit || this.camera.rotation.x === this.up_limit) {
                 this.camera.rotation.x = this.up_limit - 0.001;
@@ -123,15 +128,14 @@ Controller.prototype.update = function() {
             if(Math.min(this.camera.rotation.x, this.down_limit) < this.down_limit || this.camera.rotation.x === this.down_limit) {
                 this.camera.rotation.x = this.down_limit + 0.001;
             }
-            if(deltaX < this.rotation_speed && deltaX > -this.rotation_speed) {
-                this.character.rotation.y += deltaX;
-            }
-            if(Math.max(deltaX, this.rotation_speed) > this.rotation_speed || deltaX === this.rotation_speed) {
-                this.character.rotation.y += this.rotation_speed;
-            }
-            if(Math.min(deltaX, -this.rotation_speed) < -this.rotation_speed || deltaX === -this.rotation_speed) {
+            if(deltaX < 0) {
                 this.character.rotation.y -= this.rotation_speed;
             }
+            if(deltaX > 0) {
+                this.character.rotation.y += this.rotation_speed;
+            }
+        this.lookX_curr = this.input.mouseX;
+        this.lookY_curr = this.input.mouseY;
         }
         if(this.input.wheel_delta !== 0 && this.input.wheel_delta > 0 && this.camera.position.z > 0) {
             this.camera.position.z -= 2;
