@@ -30,29 +30,30 @@ Console = function() {
     this.count = 0;
     this.children = [];
 
-    this.create = function(name, property, object) {
-        this.count++;
-        var child = {};
-        var line = document.createElement('p');
-        
-        var data = object[property];
-        
-        child.domElement = line;
-        child.data = data;
-        child.name = name;
-        child.property = property;
-        child.object = object;
-        
-        line.innerHTML = name + ': ' + data;
-        
-        this.children.push(child);
-        this.domElement.appendChild(child.domElement);
-    };
+};
 
-    this.update = function() {
-        for(var i=0;i<this.children.length;i++) {
-            this.children[i].data = this.children[i].object[this.children[i].property];
-            this.children[i].domElement.innerHTML = this.children[i].name + ': ' + this.children[i].data;
-        }
-    };
+Console.prototype.create = function(name, property, object) {
+    this.count++;
+    var child = {};
+    var line = document.createElement('p');
+    
+    var data = object[property];
+    
+    child.domElement = line;
+    child.data = data;
+    child.name = name;
+    child.property = property;
+    child.object = object;
+    
+    line.innerHTML = name + ': ' + data;
+    
+    this.children.push(child);
+    this.domElement.appendChild(child.domElement);
+};
+
+Console.prototype.update = function() {
+    for(var i=0;i<this.children.length;i++) {
+        this.children[i].data = this.children[i].object[this.children[i].property];
+        this.children[i].domElement.innerHTML = this.children[i].name + ': ' + this.children[i].data;
+    }
 };
